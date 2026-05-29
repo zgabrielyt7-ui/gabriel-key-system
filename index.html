@@ -3,78 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabriel Hub | Loading...</title>
+    <title>Gabriel Hub | Key System</title>
     <style>
-        body { 
-            background: #151515; color: white; text-align: center; font-family: 'Segoe UI', sans-serif; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0;
-        }
-        #content { display: none; } /* Escondido inicialmente */
-        .spinner { border: 4px solid #333; border-top: 4px solid #ff0000; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        body { background: #151515; color: white; text-align: center; font-family: sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        #content { display: none; }
+        .spinner { border: 4px solid #333; border-top: 4px solid #ff0000; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .key-box { 
-            border: 3px solid #ff0000; padding: 30px 50px; border-radius: 15px; 
-            font-size: 48px; font-weight: bold; background: #202020; cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-        }
-        h1 { color: #ff0000; }
-        .admin-link { color: #333; position: fixed; bottom: 10px; right: 10px; cursor: pointer; }
+        .key-box { border: 3px solid #ff0000; padding: 30px; border-radius: 15px; font-size: 32px; font-weight: bold; background: #202020; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner"></div>
-        <p>Verificando acesso...</p>
-    </div>
+    <div id="loader"><div class="spinner"></div><p>Verificando...</p></div>
 
     <div id="content">
         <h1>SUA CHAVE DE HOJE</h1>
-        <div class="key-box" id="key-display" onclick="copiarChave()">Carregando...</div>
-        <p>Toque na chave para copiar</p>
+        <div class="key-box" id="key-display" onclick="copiar()">Carregando...</div>
     </div>
-
-    <div class="admin-link" onclick="ativarAdmin()">.</div>
 
     <script>
         const linkEncurtador = "https://link-target.net/6086616/hrldYG0Le5E4";
-        const SENHA_ADMIN = "147856GM";
 
-        // 1. Inicia o sistema
+        // Verifica se a URL tem ?admin=1
+        const urlParams = new URLSearchParams(window.location.search);
+        
         window.onload = function() {
-            // Verifica origem primeiro
+            // Se tiver ?admin=1 na URL, libera na hora
+            if (urlParams.get('admin') === '1') {
+                localStorage.setItem("admin_auth", "true");
+            }
+
+            // Lógica de bloqueio
             if (document.referrer === "" && localStorage.getItem("admin_auth") !== "true") {
                 window.location.href = linkEncurtador;
                 return;
             }
 
-            // Se passou, espera 5 segundos para mostrar o conteúdo
             setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
-                updateKey();
-            }, 5000); // 5000 milissegundos = 5 segundos
+                const now = new Date();
+                document.getElementById('key-display').innerText = "GHUB" + String(now.getDate()).padStart(2, '0') + String(now.getMonth() + 1).padStart(2, '0');
+            }, 2000);
         }
 
-        function updateKey() {
-            const now = new Date();
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            document.getElementById("key-display").innerText = "GHUB" + day + month;
-        }
-
-        function copiarChave() {
-            const chave = document.getElementById("key-display").innerText;
-            navigator.clipboard.writeText(chave);
-            alert("Chave copiada: " + chave);
-        }
-
-        function ativarAdmin() {
-            let senha = prompt("Acesso Admin:");
-            if (senha === SENHA_ADMIN) {
-                localStorage.setItem("admin_auth", "true");
-                location.reload();
-            }
+        function copiar() {
+            navigator.clipboard.writeText(document.getElementById('key-display').innerText);
+            alert("Chave copiada!");
         }
     </script>
 </body>
