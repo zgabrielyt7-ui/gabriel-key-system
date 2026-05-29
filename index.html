@@ -3,27 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabriel Hub | Key System</title>
+    <title>Gabriel Hub | Loading...</title>
     <style>
         body { 
             background: #151515; color: white; text-align: center; font-family: 'Segoe UI', sans-serif; 
             display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0;
         }
-        h1 { margin-bottom: 20px; color: #ff0000; }
+        #content { display: none; } /* Escondido inicialmente */
+        .spinner { border: 4px solid #333; border-top: 4px solid #ff0000; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .key-box { 
             border: 3px solid #ff0000; padding: 30px 50px; border-radius: 15px; 
             font-size: 48px; font-weight: bold; background: #202020; cursor: pointer;
             box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
         }
-        p { margin-top: 20px; font-size: 18px; color: #ccc; }
+        h1 { color: #ff0000; }
         .admin-link { color: #333; position: fixed; bottom: 10px; right: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <h1>SUA CHAVE DE HOJE</h1>
-    <div class="key-box" id="key-display" onclick="copiarChave()">Carregando...</div>
-    <p>Toque na chave para copiar</p>
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>Verificando acesso...</p>
+    </div>
+
+    <div id="content">
+        <h1>SUA CHAVE DE HOJE</h1>
+        <div class="key-box" id="key-display" onclick="copiarChave()">Carregando...</div>
+        <p>Toque na chave para copiar</p>
+    </div>
 
     <div class="admin-link" onclick="ativarAdmin()">.</div>
 
@@ -31,20 +40,20 @@
         const linkEncurtador = "https://link-target.net/6086616/hrldYG0Le5E4";
         const SENHA_ADMIN = "147856GM";
 
-        function verificarOrigem() {
-            // O código abaixo verifica se o acesso é direto.
-            // Se for admin, ele libera. Se não, força o encurtador.
+        // 1. Inicia o sistema
+        window.onload = function() {
+            // Verifica origem primeiro
             if (document.referrer === "" && localStorage.getItem("admin_auth") !== "true") {
                 window.location.href = linkEncurtador;
+                return;
             }
-        }
 
-        function ativarAdmin() {
-            let senha = prompt("Acesso Admin:");
-            if (senha === SENHA_ADMIN) {
-                localStorage.setItem("admin_auth", "true");
-                location.reload();
-            }
+            // Se passou, espera 5 segundos para mostrar o conteúdo
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+                updateKey();
+            }, 5000); // 5000 milissegundos = 5 segundos
         }
 
         function updateKey() {
@@ -57,11 +66,16 @@
         function copiarChave() {
             const chave = document.getElementById("key-display").innerText;
             navigator.clipboard.writeText(chave);
-            alert("Chave copiada com sucesso: " + chave);
+            alert("Chave copiada: " + chave);
         }
 
-        verificarOrigem();
-        updateKey();
+        function ativarAdmin() {
+            let senha = prompt("Acesso Admin:");
+            if (senha === SENHA_ADMIN) {
+                localStorage.setItem("admin_auth", "true");
+                location.reload();
+            }
+        }
     </script>
 </body>
 </html>
