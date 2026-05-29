@@ -5,22 +5,52 @@
     <title>Gabriel Hub | Key System</title>
     <style>
         body { background: #151515; color: white; text-align: center; font-family: Arial; padding-top: 50px; }
-        .key-box { border: 2px solid #ff0000; padding: 20px; display: inline-block; border-radius: 10px; font-size: 24px; }
+        .key-box { border: 2px solid #ff0000; padding: 20px; display: inline-block; border-radius: 10px; font-size: 24px; cursor: pointer; }
+        .admin-link { color: #555; font-size: 10px; margin-top: 50px; cursor: pointer; }
     </style>
 </head>
 <body>
     <h1>Gabriel Hub Key</h1>
-    <div class="key-box" id="key-display">Carregando chave...</div>
-    <p>Copie a chave acima e cole no seu Gabriel Hub!</p>
+    <div class="key-box" id="key-display" onclick="copiarChave()">Carregando...</div>
+    <p>Clique na chave para copiar!</p>
+
+    <div class="admin-link" onclick="ativarAdmin()">.</div>
 
     <script>
+        const linkEncurtador = "https://link-target.net/6086616/hrldYG0Le5E4";
+        const SENHA_ADMIN = "147856GM"; // A SUA SENHA MASTER
+
+        function verificarOrigem() {
+            // Se não veio do encurtador E não é o admin (verificado pelo localStorage), redireciona
+            if (document.referrer === "" && localStorage.getItem("admin_auth") !== "true") {
+                alert("Você precisa passar pelo encurtador!");
+                window.location.href = linkEncurtador;
+            }
+        }
+
+        function ativarAdmin() {
+            let senha = prompt("Acesso Administrador:");
+            if (senha === SENHA_ADMIN) {
+                localStorage.setItem("admin_auth", "true");
+                alert("Modo Admin ativado!");
+                location.reload();
+            }
+        }
+
         function updateKey() {
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
             const month = String(now.getMonth() + 1).padStart(2, '0');
-            // O código abaixo deve ser IDÊNTICO ao que está no seu script Lua
             document.getElementById("key-display").innerText = "GHUB" + day + month;
         }
+
+        function copiarChave() {
+            const chave = document.getElementById("key-display").innerText;
+            navigator.clipboard.writeText(chave);
+            alert("Chave copiada!");
+        }
+
+        verificarOrigem();
         updateKey();
     </script>
 </body>
