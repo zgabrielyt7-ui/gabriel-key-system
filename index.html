@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gabriel Hub | Key System</title>
+    <style>
+        body { background: #151515; color: white; text-align: center; font-family: Arial; padding-top: 50px; }
+        .key-box { border: 2px solid #ff0000; padding: 20px; display: inline-block; border-radius: 10px; font-size: 24px; }
+    </style>
+</head>
+<body>
+    <h1>Gabriel Hub Key</h1>
+    <div class="key-box" id="key-display">Carregando chave...</div>
+    <p>Copie a chave acima e cole no seu Gabriel Hub!</p>
+
+    <script>
+        function updateKey() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            // O código abaixo deve ser IDÊNTICO ao que está no seu script Lua
+            document.getElementById("key-display").innerText = "GHUB" + day + month;
+        }
+        updateKey();
+    </script>
+</body>
+</html>
