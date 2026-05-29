@@ -1,39 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gabriel Hub | Key System</title>
     <style>
-        body { background: #151515; color: white; text-align: center; font-family: Arial; padding-top: 50px; }
-        .key-box { border: 2px solid #ff0000; padding: 20px; display: inline-block; border-radius: 10px; font-size: 24px; cursor: pointer; }
-        .admin-link { color: #555; font-size: 10px; margin-top: 50px; cursor: pointer; }
+        body { 
+            background: #151515; color: white; text-align: center; font-family: 'Segoe UI', sans-serif; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0;
+        }
+        h1 { margin-bottom: 20px; color: #ff0000; }
+        .key-box { 
+            border: 3px solid #ff0000; padding: 30px 50px; border-radius: 15px; 
+            font-size: 48px; font-weight: bold; background: #202020; cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+        p { margin-top: 20px; font-size: 18px; color: #ccc; }
+        .admin-link { color: #333; position: fixed; bottom: 10px; right: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h1>Gabriel Hub Key</h1>
+
+    <h1>SUA CHAVE DE HOJE</h1>
     <div class="key-box" id="key-display" onclick="copiarChave()">Carregando...</div>
-    <p>Clique na chave para copiar!</p>
+    <p>Toque na chave para copiar</p>
 
     <div class="admin-link" onclick="ativarAdmin()">.</div>
 
     <script>
         const linkEncurtador = "https://link-target.net/6086616/hrldYG0Le5E4";
-        const SENHA_ADMIN = "147856GM"; // A SUA SENHA MASTER
+        const SENHA_ADMIN = "147856GM";
 
         function verificarOrigem() {
-            // Se não veio do encurtador E não é o admin (verificado pelo localStorage), redireciona
+            // O código abaixo verifica se o acesso é direto.
+            // Se for admin, ele libera. Se não, força o encurtador.
             if (document.referrer === "" && localStorage.getItem("admin_auth") !== "true") {
-                alert("Você precisa passar pelo encurtador!");
                 window.location.href = linkEncurtador;
             }
         }
 
         function ativarAdmin() {
-            let senha = prompt("Acesso Administrador:");
+            let senha = prompt("Acesso Admin:");
             if (senha === SENHA_ADMIN) {
                 localStorage.setItem("admin_auth", "true");
-                alert("Modo Admin ativado!");
                 location.reload();
             }
         }
@@ -48,7 +57,7 @@
         function copiarChave() {
             const chave = document.getElementById("key-display").innerText;
             navigator.clipboard.writeText(chave);
-            alert("Chave copiada!");
+            alert("Chave copiada com sucesso: " + chave);
         }
 
         verificarOrigem();
