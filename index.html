@@ -5,19 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gabriel Hub | Key System</title>
     <style>
-        body { background: #151515; color: white; text-align: center; font-family: sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        body { 
+            background: #151515; 
+            color: white; 
+            text-align: center; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
         #content { display: none; }
-        .spinner { border: 4px solid #333; border-top: 4px solid #ff0000; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        
+        /* Tema atualizado para o Laranja do Hub */
+        .spinner { 
+            border: 4px solid #333; 
+            border-top: 4px solid #ff6600; 
+            border-radius: 50%; 
+            width: 40px; 
+            height: 40px; 
+            animation: spin 1s linear infinite; 
+            margin: 0 auto 15px auto;
+        }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .key-box { border: 3px solid #ff0000; padding: 30px; border-radius: 15px; font-size: 32px; font-weight: bold; background: #202020; cursor: pointer; }
+        
+        .key-box { 
+            border: 3px solid #ff6600; 
+            padding: 20px 40px; 
+            border-radius: 12px; 
+            font-size: 32px; 
+            font-weight: bold; 
+            background: #202020; 
+            cursor: pointer; 
+            color: #ff6600;
+            transition: 0.2s;
+            letter-spacing: 2px;
+        }
+        .key-box:hover {
+            background: #252525;
+            transform: scale(1.05);
+        }
+        
+        p { color: #aaaaaa; }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="spinner"></div><p>Verificando...</p></div>
+    <div id="loader">
+        <div class="spinner"></div>
+        <p>Descriptografando Chave...</p>
+    </div>
 
     <div id="content">
         <h1>SUA CHAVE DE HOJE</h1>
+        <p>Clique na caixa abaixo para copiar a chave</p>
         <div class="key-box" id="key-display" onclick="copiar()">Carregando...</div>
     </div>
 
@@ -33,7 +76,7 @@
                 localStorage.setItem("admin_auth", "true");
             }
 
-            // Lógica de bloqueio
+            // Lógica de bloqueio (se não veio do linkvertise e não é admin)
             if (document.referrer === "" && localStorage.getItem("admin_auth") !== "true") {
                 window.location.href = linkEncurtador;
                 return;
@@ -42,14 +85,45 @@
             setTimeout(() => {
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
+                
                 const now = new Date();
-                document.getElementById('key-display').innerText = "GHUB" + String(now.getDate()).padStart(2, '0') + String(now.getMonth() + 1).padStart(2, '0');
+                
+                // =======================================================
+                // TRADUÇÃO DA FÓRMULA MATEMÁTICA LUA PARA JAVASCRIPT
+                // =======================================================
+                const d = now.getDate();
+                const m = now.getMonth() + 1; // No JS os meses começam no 0, então somamos 1
+                const y = now.getFullYear();
+                
+                // A mesma fórmula secreta que está no script do Roblox!
+                const secretFormula = (d * 583) + (m * 921) + ((y % 100) * 73);
+                
+                // Converte a matemática para Hexadecimal maiúsculo
+                const dailyKey = "G-" + secretFormula.toString(16).toUpperCase();
+                
+                document.getElementById('key-display').innerText = dailyKey;
             }, 2000);
         }
 
         function copiar() {
-            navigator.clipboard.writeText(document.getElementById('key-display').innerText);
-            alert("Chave copiada!");
+            const keyBox = document.getElementById('key-display');
+            const keyText = keyBox.innerText;
+            
+            // Só copia se ainda não estiver mostrando o texto "COPIADO!"
+            if (keyText !== "COPIADO!") {
+                navigator.clipboard.writeText(keyText);
+                
+                // Efeito visual na caixa
+                keyBox.innerText = "COPIADO!";
+                keyBox.style.color = "#00ff00"; // Fica verde rapidamente
+                keyBox.style.borderColor = "#00ff00";
+                
+                setTimeout(() => { 
+                    keyBox.innerText = keyText; 
+                    keyBox.style.color = "#ff6600";
+                    keyBox.style.borderColor = "#ff6600";
+                }, 1500);
+            }
         }
     </script>
 </body>
