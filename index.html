@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gabriel Hub | Premium Key System</title>
-    <!-- Importando fonte premium do Google -->
+    <!-- Importando fontes premium -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
     
     <style>
@@ -12,7 +12,7 @@
             --primary: #ff6600;
             --primary-glow: rgba(255, 102, 0, 0.4);
             --bg-color: #09090b;
-            --card-bg: rgba(20, 20, 25, 0.7);
+            --card-bg: rgba(20, 20, 25, 0.75);
             --text-main: #ffffff;
             --text-muted: #888899;
         }
@@ -35,11 +35,11 @@
             position: relative;
         }
 
-        /* Efeito de Luz no Fundo (Premium Glow) */
+        /* Efeito de Luz no Fundo */
         .ambient-light {
             position: absolute;
-            width: 40vw;
-            height: 40vw;
+            width: 45vw;
+            height: 45vw;
             background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);
             top: 50%;
             left: 50%;
@@ -50,22 +50,22 @@
         }
 
         @keyframes pulseLight {
-            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
         }
 
         /* Container Principal (Glassmorphism) */
         .glass-panel {
             background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 102, 0, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 102, 0, 0.2);
             border-radius: 20px;
             padding: 40px;
             width: 90%;
-            max-width: 450px;
+            max-width: 480px;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
             z-index: 1;
             transform: translateY(20px);
             opacity: 0;
@@ -78,13 +78,15 @@
 
         /* Cabeçalho do Card */
         .header {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 20px;
         }
 
         .header h1 {
             font-size: 28px;
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             background: linear-gradient(90deg, #ffffff, var(--primary));
             -webkit-background-clip: text;
@@ -96,54 +98,26 @@
             background: rgba(255, 102, 0, 0.1);
             color: var(--primary);
             border: 1px solid var(--primary);
-            padding: 4px 12px;
+            padding: 5px 15px;
             border-radius: 50px;
             font-size: 11px;
             font-weight: 600;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            margin-top: 10px;
+            margin-top: 12px;
+            box-shadow: 0 0 10px rgba(255, 102, 0, 0.2);
         }
 
-        /* Spinner Moderno */
-        #loader {
-            display: flex;
+        /* Classes para transição de Etapas (Steps) */
+        .step {
+            display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 150px;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        #loader p {
-            color: var(--text-muted);
-            font-size: 14px;
-            animation: pulseText 1.5s infinite;
-        }
-
-        @keyframes pulseText {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* Conteúdo da Key */
-        #content {
-            display: none;
             animation: fadeIn 0.5s forwards;
+        }
+
+        .step.active {
+            display: flex;
         }
 
         @keyframes fadeIn {
@@ -151,41 +125,100 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 20px;
+        /* Estilos da Etapa 1 */
+        .info-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            margin-bottom: 25px;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Caixa da Chave Otimizada */
-        .key-box {
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .info-row:last-child { margin-bottom: 0; }
+        .info-label { color: var(--text-muted); }
+        .info-value.green { color: #00e676; font-weight: 600; }
+        .info-value.orange { color: var(--primary); font-weight: 600; }
+
+        /* Estilos da Etapa 2 (Carregamento) */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite;
+            margin: 20px 0;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #loading-text {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
             background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+            transition: width 0.4s ease;
+        }
+
+        /* Estilos da Etapa 3 (Resultado) */
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .key-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px dashed rgba(255, 102, 0, 0.5);
             padding: 20px;
             border-radius: 12px;
             font-family: 'Fira Code', monospace;
-            font-size: 28px;
-            color: var(--primary);
-            letter-spacing: 3px;
+            font-size: 30px;
+            color: var(--text-main);
+            letter-spacing: 4px;
             margin-bottom: 25px;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
-        .key-box:hover {
-            border-color: var(--primary-glow);
-            text-shadow: 0 0 10px var(--primary-glow);
-        }
-
-        /* Botão Premium */
-        .btn-copy {
-            background: linear-gradient(135deg, var(--primary), #e65c00);
+        /* Botões */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #cc5200);
             color: #fff;
             border: none;
-            padding: 15px 30px;
+            padding: 16px 30px;
             border-radius: 8px;
             font-family: 'Poppins', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
@@ -195,17 +228,14 @@
             letter-spacing: 1px;
         }
 
-        .btn-copy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 102, 0, 0.6);
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 102, 0, 0.6);
             background: linear-gradient(135deg, #ff7b22, var(--primary));
         }
 
-        .btn-copy:active {
-            transform: translateY(1px);
-        }
+        .btn-primary:active { transform: translateY(1px); }
 
-        /* Estado de Sucesso */
         .success-state {
             background: linear-gradient(135deg, #00b09b, #96c93d) !important;
             box-shadow: 0 4px 15px rgba(0, 176, 155, 0.4) !important;
@@ -214,85 +244,162 @@
 </head>
 <body>
 
-    <!-- Luz de Fundo Premium -->
+    <!-- Luz de Fundo -->
     <div class="ambient-light"></div>
 
-    <!-- Painel Principal -->
+    <!-- Painel -->
     <div class="glass-panel">
+        
+        <!-- Cabeçalho Fixo -->
         <div class="header">
             <h1>Gabriel Hub</h1>
-            <div class="badge">Acesso Premium</div>
+            <div class="badge">Acesso Seguro Autorizado</div>
         </div>
 
-        <div id="loader">
+        <!-- ========================================== -->
+        <!-- ETAPA 1: TELA DE BOAS-VINDAS / INÍCIO      -->
+        <!-- ========================================== -->
+        <div id="step-1" class="step active">
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-label">Status da Conexão:</span>
+                    <span class="info-value green">Verificada</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Criptografia:</span>
+                    <span class="info-value orange">AES-256 Ativa</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Validade da Key:</span>
+                    <span class="info-value">24 Horas</span>
+                </div>
+            </div>
+            <p class="subtitle" style="margin-bottom: 25px;">Sua sessão foi validada com sucesso. Clique abaixo para iniciar a geração do seu token diário exclusivo.</p>
+            <button class="btn-primary" onclick="iniciarGeracao()">Gerar Chave Agora</button>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ETAPA 2: TELA DE PROCESSAMENTO / LOAD      -->
+        <!-- ========================================== -->
+        <div id="step-2" class="step">
             <div class="spinner"></div>
-            <p>Autenticando Conexão...</p>
+            <p id="loading-text">Conectando ao banco de dados...</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
         </div>
 
-        <div id="content">
-            <p class="subtitle">Sua chave de acesso foi gerada com sucesso. Ela expira em 24 horas.</p>
+        <!-- ========================================== -->
+        <!-- ETAPA 3: TELA DE RESULTADO / CHAVE FINAL   -->
+        <!-- ========================================== -->
+        <div id="step-3" class="step">
+            <p class="subtitle">Sua chave de acesso foi gerada e atrelada a esta data. Insira-a no painel do script Roblox.</p>
             
-            <div class="key-box" id="key-display">GERANDO...</div>
+            <div class="key-box" id="key-display">ERROR</div>
             
-            <button class="btn-copy" id="copy-btn" onclick="copiar()">
+            <button class="btn-primary" id="copy-btn" onclick="copiar()">
                 Copiar Chave
             </button>
         </div>
+
     </div>
 
     <script>
         const linkEncurtador = "https://linkvertise.com/6086616/hrldYG0Le5E4?o=sharing";
 
-        // Verifica se a URL tem ?admin=1
-        const urlParams = new URLSearchParams(window.location.search);
-        
         window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
             // Lógica de Admin
             if (urlParams.get('admin') === '1') {
                 localStorage.setItem("admin_auth", "true");
             }
 
-            // Lógica de Bloqueio (Referrer)
+            // Sistema Anti-Bypass (Se não veio do encurtador e não é admin, redireciona)
             if (document.referrer === "" && localStorage.getItem("admin_auth") !== "true") {
                 window.location.href = linkEncurtador;
                 return;
             }
-
-            // Simula o tempo de carregamento para efeito visual
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
-                
-                const now = new Date();
-                
-                // === FÓRMULA MATEMÁTICA DE SEGURANÇA ===
-                const d = now.getDate();
-                const m = now.getMonth() + 1;
-                const y = now.getFullYear();
-                
-                const secretFormula = (d * 583) + (m * 921) + ((y % 100) * 73);
-                const dailyKey = "G-" + secretFormula.toString(16).toUpperCase();
-                
-                document.getElementById('key-display').innerText = dailyKey;
-            }, 2500); // 2.5 segundos de "Autenticando..."
+            
+            // Se passar pelas verificações, o Step-1 já está visível automaticamente.
         }
 
+        // Função chamada pelo botão da ETAPA 1
+        function iniciarGeracao() {
+            // Esconde Etapa 1 e mostra Etapa 2
+            document.getElementById('step-1').classList.remove('active');
+            document.getElementById('step-2').classList.add('active');
+
+            const textElement = document.getElementById('loading-text');
+            const progressBar = document.getElementById('progress-bar');
+            
+            // Textos que vão mudar durante o "falso" carregamento
+            const mensagensProgresso = [
+                "Autenticando sessão do usuário...",
+                "Aplicando fórmula criptográfica...",
+                "Sincronizando com os servidores...",
+                "Finalizando token de acesso..."
+            ];
+
+            let index = 0;
+            
+            // Atualiza os textos e a barra de progresso a cada 900ms
+            const interval = setInterval(() => {
+                index++;
+                if(index < mensagensProgresso.length) {
+                    textElement.innerText = mensagensProgresso[index];
+                    progressBar.style.width = (index * 25) + "%";
+                }
+            }, 900);
+
+            // Após 3.8 segundos, encerra a Etapa 2 e exibe a Etapa 3
+            setTimeout(() => {
+                clearInterval(interval);
+                progressBar.style.width = "100%";
+                
+                setTimeout(() => {
+                    mostrarEtapaFinal();
+                }, 400); // Aguarda a barrinha encher até o final visualmente
+                
+            }, 3800);
+        }
+
+        // Função que calcula a chave e mostra a ETAPA 3
+        function mostrarEtapaFinal() {
+            document.getElementById('step-2').classList.remove('active');
+            document.getElementById('step-3').classList.add('active');
+
+            const now = new Date();
+            
+            // === FÓRMULA MATEMÁTICA LINCADA COM O SCRIPT LUA ===
+            const d = now.getDate();
+            const m = now.getMonth() + 1;
+            const y = now.getFullYear();
+            
+            const secretFormula = (d * 583) + (m * 921) + ((y % 100) * 73);
+            const dailyKey = "G-" + secretFormula.toString(16).toUpperCase();
+            
+            // Exibe a chave gerada
+            document.getElementById('key-display').innerText = dailyKey;
+        }
+
+        // Função do Botão de Copiar
         function copiar() {
             const keyText = document.getElementById('key-display').innerText;
             const btn = document.getElementById('copy-btn');
             
-            if (keyText !== "GERANDO..." && btn.innerText !== "✔ CHAVE COPIADA!") {
+            if (btn.innerText !== "✔ CHAVE COPIADA!") {
                 navigator.clipboard.writeText(keyText);
                 
                 // Animação de sucesso no botão
                 btn.classList.add('success-state');
                 btn.innerText = "✔ CHAVE COPIADA!";
                 
-                // Retorna ao estado original após 2 segundos
+                // Retorna ao estado original após 2.5 segundos
                 setTimeout(() => { 
                     btn.classList.remove('success-state');
                     btn.innerText = "COPIAR CHAVE";
-                }, 2000);
+                }, 2500);
             }
         }
     </script>
